@@ -3,7 +3,7 @@ scenarios:
   - rna_pulse_5_substance_independent_rna_protein_module
 
 likelihood_landscapes:
-  run: True
+  run: False
   n_grid_points: 100
   n_vector_points: 50
   std_dev: 2.0
