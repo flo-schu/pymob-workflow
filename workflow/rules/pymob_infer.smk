@@ -15,7 +15,6 @@ rule pymob_infer:
         "results/{scenario}/svi_loss_curve.png", 
         "results/{scenario}/settings.cfg", 
         "results/{scenario}/probability_model.png", 
-        "results/{scenario}/parameter_pairs_likelihood_landscape.tsv"
 
     params:
         case_study=config["case_study"]
