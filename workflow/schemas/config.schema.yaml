@@ -6,6 +6,8 @@ description: snakemake configuration file
 type: object
 
 properties:
+  case_study:
+    type: string
   scenarios: 
     type: array
 
@@ -19,4 +21,5 @@ likelihood_landscapes:
 
 
 required:
+  - case_study
   - scenarios

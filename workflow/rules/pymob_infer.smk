@@ -17,6 +17,9 @@ rule pymob_infer:
         "results/{scenario}/probability_model.png", 
         "results/{scenario}/parameter_pairs_likelihood_landscape.tsv"
 
+    params:
+        case_study="{config[case_study]}"
+
     log: "logs/pymob_infer_{scenario}.log"
     # TODO: Integrate multistart SVI and multichain nuts
     # TODO: Integrate datalad :) unlock, compute save. Write the last commit 
@@ -24,7 +27,7 @@ rule pymob_infer:
     shell: """
         echo "Running Workflow for {input.config}" > {output}
         pymob-infer \
-            --case_study=tktd_rna_pulse \
+            --case_study={params.case_study} \
             --scenario={wildcards.scenario} \
             --package=.. \
             --n_cores 1 \
