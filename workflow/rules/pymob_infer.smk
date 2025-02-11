@@ -18,7 +18,7 @@ rule pymob_infer:
         "results/{scenario}/parameter_pairs_likelihood_landscape.tsv"
 
     params:
-        case_study="{config[case_study]}"
+        case_study=config["case_study"]
 
     log: "logs/pymob_infer_{scenario}.log"
     # TODO: Integrate multistart SVI and multichain nuts

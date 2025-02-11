@@ -8,9 +8,9 @@ rule likelihood_landscapes:
     log: "logs/likelihood_landscapes_{scenario}_{parx}_{pary}.log"
 
     params: 
-        std_dev="{config[likelihood_landscapes][std_dev]}",
-        n_grid_points="{config[likelihood_landscapes][n_grid_points]}",
-        n_vector_points="{config[likelihood_landscapes][n_vector_points]}"
+        std_dev=config["likelihood_landscapes"]["std_dev"],
+        n_grid_points=config["likelihood_landscapes"]["n_grid_points"],
+        n_vector_points=config["likelihood_landscapes"]["n_vector_points"]
 
     shell: """
         plot-likelihood-landscape \
