@@ -1,2 +1,4 @@
-Describe how to configure the workflow (using config.yaml and maybe additional files).
-All of them need to be present with example entries inside of the config folder.
+Config files specify the scenarios that should be computed and parameterize
+inference (potentially overriding configuration options set in the scenario config files). 
+
+In addition, the analyses of the estimates are selected and configured.
