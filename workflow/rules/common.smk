@@ -44,3 +44,22 @@ def get_final_output():
             )
         print(final_output)
     return final_output
+
+
+# Function to generate input paths based on input tuple index
+def _get_input_rule_pymob_infer(wildcards):
+    # Access tuple values using the index from your wildcards
+    # Construct and return the necessary list/dictionary of input files
+    return {
+        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
+    }
+
+
+# Function to generate input paths based on input tuple index
+def _get_input_rule_likelihood_landscapes(wildcards):
+    # Access tuple values using the index from your wildcards
+    # Construct and return the necessary list/dictionary of input files
+    return {
+        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
+        "posterior": f"results/{wildcards.scenario}/numpyro_posterior.nc",
+    }

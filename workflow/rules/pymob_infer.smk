@@ -1,16 +1,6 @@
-
-# Function to generate input paths based on input tuple index
-def get_input_files(wildcards):
-    # Access tuple values using the index from your wildcards
-    # Construct and return the necessary list/dictionary of input files
-    return {
-        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
-    }
-
-
 rule pymob_infer:
     input:
-        unpack(get_input_files)
+        unpack(_get_input_rule_pymob_infer)
     output:
         "results/{scenario}/out.txt", 
         "results/{scenario}/log.txt", 
@@ -27,6 +17,7 @@ rule pymob_infer:
         "results/{scenario}/probability_model.png", 
         "results/{scenario}/parameter_pairs_likelihood_landscape.tsv"
 
+    log: "logs/pymob_infer_{scenario}.log"
     # TODO: Integrate multistart SVI and multichain nuts
     # TODO: Integrate datalad :) unlock, compute save. Write the last commit 
     # id into the commit message for reproducibility.
