@@ -7,6 +7,8 @@ rule likelihood_landscapes:
 
     log: "logs/likelihood_landscapes_{scenario}_{parx}_{pary}.log"
 
+    conda: config["pymob_infer"]["conda_env"]
+
     params: 
         std_dev=config["likelihood_landscapes"]["std_dev"],
         n_grid_points=config["likelihood_landscapes"]["n_grid_points"],

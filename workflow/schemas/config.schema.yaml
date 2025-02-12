@@ -11,6 +11,13 @@ properties:
   scenarios: 
     type: array
 
+pymob_infer:
+  type: object
+  properties:
+    cores: integer
+    backend: string
+    conda_env: string
+
 likelihood_landscapes:
   type: object
   properties:
@@ -18,6 +25,7 @@ likelihood_landscapes:
     n_grid_points: integer
     n_vector_points: integer
     std_dev: float
+    conda_env: string
 
 
 required:

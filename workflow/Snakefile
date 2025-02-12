@@ -19,5 +19,4 @@ rule all:
 
 # TODO: Next steps:
 # - Implement SLURM Profile: https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
-# - Export as a github repository: https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html
 # - Further generalize by using more config options

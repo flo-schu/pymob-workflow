@@ -16,8 +16,16 @@ rule pymob_infer:
         "results/{scenario}/settings.cfg", 
         "results/{scenario}/probability_model.png", 
 
+    conda: config["pymob_infer"]["conda_env"]
+
+    threads: config["pymob_infer"]["cores"]
+    resources:
+        mem_mb=lambda wildcards, threads: threads * 4000
+
     params:
-        case_study=config["case_study"]
+        case_study=config["case_study"],
+        cores=config["pymob_infer"]["cores"],
+        backend=config["pymob_infer"]["backend"],
 
     log: "logs/pymob_infer_{scenario}.log"
     # TODO: Integrate multistart SVI and multichain nuts
@@ -29,6 +37,6 @@ rule pymob_infer:
             --case_study={params.case_study} \
             --scenario={wildcards.scenario} \
             --package=.. \
-            --n_cores 1 \
-            --inference_backend=numpyro
+            --n_cores {params.cores} \
+            --inference_backend={params.backend}
         """

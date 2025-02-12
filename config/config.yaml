@@ -9,4 +9,9 @@ likelihood_landscapes:
   n_grid_points: 100
   n_vector_points: 50
   std_dev: 2.0
+  conda_env: hmt
 
+pymob_infer:
+  cores: 1
+  backend: numpyro
+  conda_env: hmt
