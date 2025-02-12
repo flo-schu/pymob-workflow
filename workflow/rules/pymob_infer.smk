@@ -19,8 +19,6 @@ rule pymob_infer:
     conda: config["pymob_infer"]["conda_env"]
 
     threads: config["pymob_infer"]["cores"]
-    resources:
-        mem_mb=lambda wildcards, threads: threads * 4000
 
     params:
         case_study=config["case_study"],
