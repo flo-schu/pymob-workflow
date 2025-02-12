@@ -35,7 +35,7 @@ rule pymob_infer:
     shell: """
         echo "Running Workflow for {input.config}" > {output}
         export JAX_ENABLE_X64={params.jax_x64}
-        export XLA_FLAGS="--xla_force_host_platform_device_count=${params.cores}"
+        export XLA_FLAGS="--xla_force_host_platform_device_count={params.cores}"
 
         pymob-infer \
             --case_study={params.case_study} \
