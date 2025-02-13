@@ -27,6 +27,13 @@ def get_final_output():
         scenario=config["scenarios"],
     )
 
+    extra_targets = config["pymob_infer"].get("extra_targets", [])
+    if len(extra_targets) > 0:
+        final_output.extend(expand(
+            "results/{scenario}/{target}",
+            scenario=scenarios, target=extra_targets
+        ))
+
     if config["likelihood_landscapes"]["run"]:
         for scenario in config["scenarios"]:
             paramspace = Paramspace(
@@ -42,7 +49,6 @@ def get_final_output():
                     params=paramspace.instance_patterns, scenario=scenario
                 )
             )
-        print(final_output)
     return final_output
 
 

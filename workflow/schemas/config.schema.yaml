@@ -18,6 +18,7 @@ pymob_infer:
     backend: string
     conda_env: string
     jax_x64: string
+    extra_targets: array
 
 likelihood_landscapes:
   type: object
