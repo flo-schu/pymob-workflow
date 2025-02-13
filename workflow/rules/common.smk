@@ -31,7 +31,7 @@ def get_final_output():
     if len(extra_targets) > 0:
         final_output.extend(expand(
             "results/{scenario}/{target}",
-            scenario=scenarios, target=extra_targets
+            scenario=config["scenarios"], target=extra_targets
         ))
 
     if config["likelihood_landscapes"]["run"]:
