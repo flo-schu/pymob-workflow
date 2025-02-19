@@ -31,7 +31,7 @@ rule pymob_infer:
         export JAX_ENABLE_X64={params.jax_x64}
         export XLA_FLAGS="--xla_force_host_platform_device_count={params.cores}"
 	echo $XLA_FLAGS > {output.out}
-	echo $XLA_ENABLE_X64 > {output.out}
+	echo $JAX_ENABLE_X64 > {output.out}
 
         pymob-infer \
             --case_study={params.case_study} \
