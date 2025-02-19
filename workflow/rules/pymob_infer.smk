@@ -2,19 +2,15 @@ rule pymob_infer:
     input:
         unpack(_get_input_rule_pymob_infer)
     output:
-        "results/{scenario}/out.txt", 
-        "results/{scenario}/log.txt", 
-        "results/{scenario}/numpyro_posterior.nc", 
-        "results/{scenario}/combined_pps_figure_diclofenac.png", 
-        "results/{scenario}/prior_predictive.png", 
-        "results/{scenario}/posterior_predictive.png", 
-        "results/{scenario}/combined_pps_figure_diuron.png", 
-        "results/{scenario}/combined_pps_figure_naproxen.png", 
-        "results/{scenario}/pairs_posterior.png", 
-        "results/{scenario}/trace.png", 
-        "results/{scenario}/svi_loss_curve.png", 
-        "results/{scenario}/settings.cfg", 
-        "results/{scenario}/probability_model.png", 
+        out="results/{scenario}/out.txt", 
+        log="results/{scenario}/log.txt", 
+        posterior="results/{scenario}/{params.backend}_posterior.nc", 
+        prpc="results/{scenario}/prior_predictive.png", 
+        popc="results/{scenario}/posterior_predictive.png", 
+        pairs="results/{scenario}/pairs_posterior.png", 
+        trace="results/{scenario}/trace.png", 
+        settings="results/{scenario}/settings.cfg", 
+        prob_model="results/{scenario}/probability_model.png", 
 
     conda: config["pymob_infer"]["conda_env"]
 
@@ -31,11 +27,11 @@ rule pymob_infer:
     # TODO: Integrate datalad :) unlock, compute save. Write the last commit 
     # id into the commit message for reproducibility.
     shell: """
-        echo "Running Workflow for {input.config}" > {output}
+        echo "Running Workflow for {input.config}" > {output.out}
         export JAX_ENABLE_X64={params.jax_x64}
         export XLA_FLAGS="--xla_force_host_platform_device_count={params.cores}"
-	echo $XLA_FLAGS > {output}
-	echo $XLA_ENABLE_X64 > {output}
+	echo $XLA_FLAGS > {output.out}
+	echo $XLA_ENABLE_X64 > {output.out}
 
         pymob-infer \
             --case_study={params.case_study} \
