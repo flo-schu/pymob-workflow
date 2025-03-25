@@ -10,7 +10,8 @@ rule pymob_infer:
         pairs="results/{scenario}/pairs_posterior.png", 
         trace="results/{scenario}/trace.png", 
         settings="results/{scenario}/settings.cfg", 
-        prob_model="results/{scenario}/probability_model.png", 
+        prob_model="results/{scenario}/probability_model.png",
+        report="results/{scenario}/report.md", 
 
     conda: config["pymob_infer"]["conda_env"]
 
