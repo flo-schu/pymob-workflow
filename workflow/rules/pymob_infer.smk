@@ -4,7 +4,7 @@ rule pymob_infer:
     output:
         out="results/{scenario}/out.txt", 
         log="results/{scenario}/log.txt", 
-        posterior="results/{scenario}/{params.backend}_posterior.nc", 
+        posterior=f"results/{scenario}/{config['pymob_infer']['backend']}_posterior.nc", 
         prpc="results/{scenario}/prior_predictive.png", 
         popc="results/{scenario}/posterior_predictive.png", 
         pairs="results/{scenario}/pairs_posterior.png", 
