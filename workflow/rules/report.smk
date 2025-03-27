@@ -40,4 +40,4 @@ rule combine_report_casestudy:
         case_study=config["case_study"],
         scenarios=config["scenarios"]
     script:
-        "../scripts/zip_report.sh"
+        "../scripts/zip_report.py"
