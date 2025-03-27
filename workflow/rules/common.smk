@@ -43,8 +43,8 @@ def get_final_output():
     if config["report"]["compile"]:
         for scenario in config["scenarios"]:
             final_output.extend(expand(
-                f"results/{{scenario}}/reports/{config['case_study']}_{{scenario}}.{{ext}}",
-                scenario=config["scenarios"], ext=["tex", "html"]
+                "results/{scenario}/reports/{case_study}_{scenario}.{ext}",
+                scenario=scenario, ext=["tex"], case_study=config['case_study']
             ))
 
     if config["likelihood_landscapes"]["run"]:
@@ -80,5 +80,14 @@ def _get_input_rule_likelihood_landscapes(wildcards):
     # Construct and return the necessary list/dictionary of input files
     return {
         "config": f"scenarios/{wildcards.scenario}/settings.cfg",
-        "posterior": f"results/{wildcards.scenario}/numpyro_posterior.nc",
+        "posterior": f"results/{wildcards.scenario}/{config['pymob_infer']['backend']}_posterior.nc",
+    }
+
+# Function to generate input paths based on input tuple index
+def _get_input_rule_report(wildcards):
+    # Access tuple values using the index from your wildcards
+    # Construct and return the necessary list/dictionary of input files
+    return {
+        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
+        "report": f"results/{wildcards.scenario}/report.md",
     }
