@@ -29,8 +29,9 @@ rule combine_report_casestudy:
     log: "logs/combine_report.log"
     params:
         case_study=config["case_study"],
+        scenarios=config["scenarios"]
     shell: """
         echo "{input.reports}"
         echo "{output.zip_file}"
-        scripts/zip_report.sh {output.zip_file} {input.reports}
+        scripts/zip_report.sh {output.zip_file} {params.scenarios}
         """
