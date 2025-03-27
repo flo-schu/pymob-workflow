@@ -23,11 +23,14 @@ def get_combinations(scenario):
 
 def get_final_output():
     final_output = expand(
-        "results/{scenario}/out.txt",
-        f"results/{{scenario}}/{config['pymob_infer']['backend']}_posterior.nc",
-        "results/{scenario}/report.md", 
-        "results/{scenario}/settings.cfg", 
-        scenario=config["scenarios"],
+        "results/{scenario}/{target}",
+        scenario=config["scenarios"], 
+        target=[
+            f"{config['pymob_infer']['backend']}_posterior.nc",
+            "out.txt",
+            "report.md",
+            "settings.cfg"
+        ]
     )
 
     extra_targets = config["pymob_infer"].get("extra_targets", [])
