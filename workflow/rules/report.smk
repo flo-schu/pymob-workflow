@@ -14,7 +14,7 @@ rule report:
     params:
         case_study=config["case_study"],
     shell: """
-        mkdir "results/{wildcards.scenario}/reports" 
+        mkdir -p "results/{wildcards.scenario}/reports" 
         cd "results/{wildcards.scenario}"
         pandoc --extract-media reports/media/{params.case_study}_{wildcards.scenario} report.md -o reports/{params.case_study}_{wildcards.scenario}.tex
         pandoc --extract-media reports/media/{params.case_study}_{wildcards.scenario} report.md -o reports/{params.case_study}_{wildcards.scenario}.html
