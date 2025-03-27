@@ -24,7 +24,8 @@ rule combine_report_casestudy:
     input:
         reports=_get_input_rule_report_combination 
     output: 
-        zip_file=f"results/_reports/{config['case_study']}_{current_datetime()}.zip"
+        zip_file=f"results/_reports/{config['case_study']}_{current_datetime()}.zip",
+        log=f"results/_reports/log"
     conda: config["pymob_infer"]["conda_env"]
     log: "logs/combine_report.log"
     params:
@@ -33,5 +34,5 @@ rule combine_report_casestudy:
     shell: """
         echo "{input.reports}"
         echo "{output.zip_file}"
-        scripts/zip_report.sh {output.zip_file} {params.scenarios}
+        scripts/zip_report.sh {output.zip_file} {params.scenarios} &> {log}
         """
