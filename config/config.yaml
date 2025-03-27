@@ -16,3 +16,6 @@ pymob_infer:
   backend: numpyro
   conda_env: hmt
   jax_x64: True
+
+report:
+  compile: True

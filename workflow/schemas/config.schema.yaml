@@ -29,6 +29,10 @@ likelihood_landscapes:
     std_dev: float
     conda_env: string
 
+report:
+  type: object
+  properties:
+    compile: boolean
 
 required:
   - case_study

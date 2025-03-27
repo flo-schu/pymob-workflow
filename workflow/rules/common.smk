@@ -34,6 +34,16 @@ def get_final_output():
             scenario=config["scenarios"], target=extra_targets
         ))
 
+    if config["report"]["compile"]:
+        for scenario in config["scenarios"]:
+            final_output.extend(expand(
+                "results/{scenario}/results/{target}",
+                scenario=config["scenarios"], target=[
+                    f"reports/{config['case_study']}_{scenario}.tex"
+                    f"reports/{config['case_study']}_{scenario}.html"
+                ]
+            ))
+
     if config["likelihood_landscapes"]["run"]:
         for scenario in config["scenarios"]:
             paramspace = Paramspace(

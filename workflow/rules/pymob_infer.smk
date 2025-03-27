@@ -42,7 +42,7 @@ rule pymob_infer:
             --inference_backend={params.backend}
         """
 
-rule compile_report:
+rule report:
     input:
         report="results/{scenario}/report.md", 
     output:
