@@ -39,7 +39,7 @@ def get_final_output():
             final_output.extend(expand(
                 "results/{scenario}/results/{target}",
                 scenario=config["scenarios"], target=[
-                    f"reports/{config['case_study']}_{scenario}.tex"
+                    f"reports/{config['case_study']}_{scenario}.tex",
                     f"reports/{config['case_study']}_{scenario}.html"
                 ]
             ))
