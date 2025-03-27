@@ -1,10 +1,13 @@
 # inspired by: https://github.com/snakemake-workflows/rna-seq-star-deseq2/blob/master/workflow/rules/common.smk
-
+import datetime
 import itertools
 import pandas as pd
 from snakemake.utils import Paramspace, validate
 
 validate(config, schema="../schemas/config.schema.yaml")
+
+def current_datetime():
+    return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 def get_combinations(scenario):
     # Load strings from the file using pandas
@@ -46,6 +49,9 @@ def get_final_output():
                 "results/{scenario}/reports/{case_study}_{scenario}.{ext}",
                 scenario=scenario, ext=["tex"], case_study=config['case_study']
             ))
+            final_output.append(
+                f"results/_reports/{config['case_study']}_{current_datetime()}.zip"
+            )
 
     if config["likelihood_landscapes"]["run"]:
         for scenario in config["scenarios"]:
@@ -91,3 +97,12 @@ def _get_input_rule_report(wildcards):
         "config": f"scenarios/{wildcards.scenario}/settings.cfg",
         "report": f"results/{wildcards.scenario}/report.md",
     }
+
+# Function to generate input paths based on input tuple index
+def _get_input_rule_report_combination(wildcards):
+    # Access tuple values using the index from your wildcards
+    # Construct and return the necessary list/dictionary of input files
+    return expand(
+        f"results/{{s}}/reports/{config['case_study']}_{{s}}.tex", 
+        s=config["scenarios"]
+    )
