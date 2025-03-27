@@ -13,7 +13,7 @@ rule report:
     params:
         case_study=config["case_study"],
     shell: """
-        wd_base=$PWD
+        wd_base="$PWD"
         mkdir -p "results/{wildcards.scenario}/reports" 
 
         # execute pandoc in results for tex generation
@@ -25,7 +25,7 @@ rule report:
         pandoc --resource-path .. --extract-media media/{params.case_study}_{wildcards.scenario} report.md --standalone -o {params.case_study}_{wildcards.scenario}.html
         
         # go back to the beginning
-        cd wd_base
+        cd "$wd_base"
         """
 
 rule combine_report_casestudy:
