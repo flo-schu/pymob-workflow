@@ -33,7 +33,11 @@ def zip_scenarios(zip_file_relative, scenarios):
             else:
                 print(f"Directory {reports_dir} does not exist.")
 
+print(snakemake.output)
+print(snakemake.params)
+print(snakemake.input)
+
 zip_scenarios(
     snakemake.output.zip_file, 
-    snakemake.input.scenarios
+    snakemake.params.scenarios
 )
