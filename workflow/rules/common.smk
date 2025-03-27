@@ -43,7 +43,7 @@ def get_final_output():
     if config["report"]["compile"]:
         for scenario in config["scenarios"]:
             final_output.extend(expand(
-                f"results/{{scenario}}/results/reports/{config['case_study']}_{{scenario}}.{{ext}}",
+                f"results/{{scenario}}/reports/{config['case_study']}_{{scenario}}.{{ext}}",
                 scenario=config["scenarios"], ext=["tex", "html"]
             ))
 
