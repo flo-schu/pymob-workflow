@@ -22,7 +22,7 @@ rule report:
         
         # execute pandoc in reports for html generation, so that the media are in media/...
         cd "reports"
-        pandoc --resource-path .. --extract-media media/{params.case_study}_{wildcards.scenario} report.md --standalone -o {params.case_study}_{wildcards.scenario}.html
+        pandoc --resource-path .. --extract-media media/{params.case_study}_{wildcards.scenario} ../report.md --standalone -o {params.case_study}_{wildcards.scenario}.html
         
         # go back to the beginning
         cd "$wd_base"
