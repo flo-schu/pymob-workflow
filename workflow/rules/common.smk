@@ -6,8 +6,9 @@ from snakemake.utils import Paramspace, validate
 
 validate(config, schema="../schemas/config.schema.yaml")
 
-def current_datetime():
-    return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+# fix the time of the first execution of the script to use
+# for timestamped output 
+workflow_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 def get_combinations(scenario):
     # Load strings from the file using pandas
@@ -50,7 +51,7 @@ def get_final_output():
                 scenario=scenario, ext=["tex"], case_study=config['case_study']
             ))
             final_output.append(
-                f"results/_reports/{config['case_study']}_{current_datetime()}.zip"
+                f"results/_reports/{config['case_study']}_{workflow_time}.zip"
             )
 
     if config["likelihood_landscapes"]["run"]:

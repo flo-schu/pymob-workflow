@@ -32,7 +32,7 @@ rule combine_report_casestudy:
     input:
         reports=_get_input_rule_report_combination 
     output: 
-        zip_file=f"results/_reports/{config['case_study']}_{current_datetime()}.zip",
+        zip_file=f"results/_reports/{config['case_study']}_{workflow_time}.zip",
     conda: config["pymob_infer"]["conda_env"]
     log: "logs/combine_report.log"
     params:
