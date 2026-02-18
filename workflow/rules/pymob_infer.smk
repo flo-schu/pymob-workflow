@@ -22,12 +22,14 @@ rule pymob_infer:
 
     retries: config["pymob_infer"].get("max_retries", 3)
 
+    resources:
+        attempt=get_attempt
+
     params:
         case_study=config["case_study"],
         cores=config["pymob_infer"]["cores"],
         backend=config["pymob_infer"]["backend"],
         jax_x64=config["pymob_infer"]["jax_x64"],
-        attempt=get_attempt
 
     log: "logs/pymob_infer_{scenario}.log"
     # TODO: Integrate multistart SVI and multichain nuts
@@ -43,7 +45,7 @@ rule pymob_infer:
 
         # Read seed from settings.cfg and increment by attempt number
         SEED=$(sed -n '/^\[simulation\]/,/^\[/p' {input.config} | grep '^seed' | cut -d'=' -f2 | tr -d ' ')
-        SEED=$((SEED + {params.attempt} - 1))
+        SEED=$((SEED + {resources.attempt} - 1))
         echo "Random seed: $SEED" >> {output.out}
 
         pymob-infer \
