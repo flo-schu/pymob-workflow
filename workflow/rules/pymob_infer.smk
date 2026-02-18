@@ -35,11 +35,11 @@ rule pymob_infer:
         export XLA_FLAGS="--xla_force_host_platform_device_count={params.cores}"
         echo $XLA_FLAGS > {output.out}
         echo $JAX_ENABLE_X64 > {output.out}
-        echo "Attempt: {attempt}" >> {output.out}
+        echo "Attempt: $SNAKEMAKE_ATTEMPT" >> {output.out}
 
         # Read seed from settings.cfg and increment by attempt number
         SEED=$(sed -n '/^\[simulation\]/,/^\[/p' {input.config} | grep '^seed' | cut -d'=' -f2 | tr -d ' ')
-        SEED=$((SEED + {attempt} - 1))
+        SEED=$((SEED + SNAKEMAKE_ATTEMPT - 1))
         echo "Random seed: $SEED" >> {output.out}
 
         pymob-infer \
