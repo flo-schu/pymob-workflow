@@ -15,6 +15,7 @@ pymob_infer:
   backend: numpyro
   conda_env: hmt
   jax_x64: True
+  max_retries: 3
 
 report:
   compile: True

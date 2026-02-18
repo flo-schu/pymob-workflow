@@ -17,6 +17,8 @@ rule pymob_infer:
 
     threads: config["pymob_infer"]["cores"]
 
+    retries: config["pymob_infer"].get("max_retries", 3)
+
     params:
         case_study=config["case_study"],
         cores=config["pymob_infer"]["cores"],
@@ -33,11 +35,18 @@ rule pymob_infer:
         export XLA_FLAGS="--xla_force_host_platform_device_count={params.cores}"
         echo $XLA_FLAGS > {output.out}
         echo $JAX_ENABLE_X64 > {output.out}
+        echo "Attempt: {attempt}" >> {output.out}
+
+        # Read seed from settings.cfg and increment by attempt number
+        SEED=$(sed -n '/^\[simulation\]/,/^\[/p' {input.config} | grep '^seed' | cut -d'=' -f2 | tr -d ' ')
+        SEED=$((SEED + attempt - 1))
+        echo "Random seed: $SEED" >> {output.out}
 
         pymob-infer \
             --case_study={params.case_study} \
             --scenario={wildcards.scenario} \
             --package=.. \
             --n_cores {params.cores} \
-            --inference_backend={params.backend}
+            --inference_backend={params.backend} \
+            --random_seed=$SEED
         """

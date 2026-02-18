@@ -19,6 +19,7 @@ pymob_infer:
     conda_env: string
     jax_x64: string
     extra_targets: array
+    max_retries: integer
 
 likelihood_landscapes:
   type: object
