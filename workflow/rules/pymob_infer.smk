@@ -39,7 +39,7 @@ rule pymob_infer:
 
         # Read seed from settings.cfg and increment by attempt number
         SEED=$(sed -n '/^\[simulation\]/,/^\[/p' {input.config} | grep '^seed' | cut -d'=' -f2 | tr -d ' ')
-        SEED=$((SEED + attempt - 1))
+        SEED=$((SEED + {attempt} - 1))
         echo "Random seed: $SEED" >> {output.out}
 
         pymob-infer \
