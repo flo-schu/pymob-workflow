@@ -5,16 +5,16 @@ rule pymob_infer:
     input:
         unpack(_get_input_rule_pymob_infer)
     output:
-        out="results/{scenario}/out.txt", 
-        log="results/{scenario}/log.txt", 
-        posterior=f"results/{{scenario}}/{config['pymob_infer']['backend']}_posterior.nc", 
-        prpc="results/{scenario}/prior_predictive.png", 
-        popc="results/{scenario}/posterior_predictive.png", 
-        pairs="results/{scenario}/posterior_pairs.png", 
-        trace="results/{scenario}/posterior_trace.png", 
-        settings="results/{scenario}/settings.cfg", 
-        prob_model="results/{scenario}/probability_model.png",
-        report="results/{scenario}/report.md", 
+        out=f"{root}/results/{{scenario}}/out.txt", 
+        log=f"{root}/results/{{scenario}}/log.txt", 
+        posterior=f"{root}/results/{{scenario}}/{config['pymob_infer']['backend']}_posterior.nc", 
+        prpc=f"{root}/results/{{scenario}}/prior_predictive.png", 
+        popc=f"{root}/results/{{scenario}}/posterior_predictive.png", 
+        pairs=f"{root}/results/{{scenario}}/posterior_pairs.png", 
+        trace=f"{root}/results/{{scenario}}/posterior_trace.png", 
+        settings=f"{root}/results/{{scenario}}/settings.cfg", 
+        prob_model=f"{root}/results/{{scenario}}/probability_model.png",
+        report=f"{root}/results/{{scenario}}/report.md", 
 
     conda: config["pymob_infer"]["conda_env"]
 
@@ -30,6 +30,7 @@ rule pymob_infer:
         cores=config["pymob_infer"]["cores"],
         backend=config["pymob_infer"]["backend"],
         jax_x64=config["pymob_infer"]["jax_x64"],
+        output_dir=config["output_dir"],
 
     log: "logs/pymob_infer_{scenario}.log"
     # TODO: Integrate multistart SVI and multichain nuts
@@ -51,7 +52,7 @@ rule pymob_infer:
         pymob-infer \
             --case_study={params.case_study} \
             --scenario={wildcards.scenario} \
-            --package=.. \
+            --package={params.output_dir} \
             --n_cores {params.cores} \
             --inference_backend={params.backend} \
             --random_seed=$SEED

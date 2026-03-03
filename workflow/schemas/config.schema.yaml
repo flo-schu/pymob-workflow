@@ -8,6 +8,8 @@ type: object
 properties:
   case_study:
     type: string
+  output_dir: 
+    type: string
   scenarios: 
     type: array
 

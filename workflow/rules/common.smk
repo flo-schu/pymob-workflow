@@ -1,4 +1,5 @@
 # inspired by: https://github.com/snakemake-workflows/rna-seq-star-deseq2/blob/master/workflow/rules/common.smk
+import os
 import datetime
 import itertools
 import pandas as pd
@@ -9,10 +10,11 @@ validate(config, schema="../schemas/config.schema.yaml")
 # fix the time of the first execution of the script to use
 # for timestamped output 
 workflow_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+root = os.path.relpath(os.path.join(config["output_dir"], config["case_study"]))
 
 def get_combinations(scenario):
     # Load strings from the file using pandas
-    inp = f"scenarios/{scenario}/parameters_likelihood_landscape.txt"
+    inp = f"{root}/scenarios/{scenario}/parameters_likelihood_landscape.txt"
     df = pd.read_csv(inp, header=None, names=['params'])
 
     # Create a list of strings from the DataFrame
@@ -27,7 +29,8 @@ def get_combinations(scenario):
 
 def get_final_output():
     final_output = expand(
-        "results/{scenario}/{target}",
+        "{root}/results/{scenario}/{target}",
+        root=root,
         scenario=config["scenarios"], 
         target=[
             f"{config['pymob_infer']['backend']}_posterior.nc",
@@ -40,18 +43,21 @@ def get_final_output():
     extra_targets = config["pymob_infer"].get("extra_targets", [])
     if len(extra_targets) > 0:
         final_output.extend(expand(
-            "results/{scenario}/{target}",
-            scenario=config["scenarios"], target=extra_targets
+            "{root}/results/{scenario}/{target}",
+            root=root,
+            scenario=config["scenarios"], 
+            target=extra_targets
         ))
 
     if config["report"]["compile"]:
         for scenario in config["scenarios"]:
             final_output.extend(expand(
-                "results/{scenario}/reports/{case_study}_{scenario}.{ext}",
+                "{root}/results/{scenario}/reports/{case_study}_{scenario}.{ext}",
+                root=root,
                 scenario=scenario, ext=["tex"], case_study=config['case_study']
             ))
             final_output.append(
-                f"results/_reports/{config['case_study']}_{workflow_time}.zip"
+                f"{root}/results/_reports/{config['case_study']}_{workflow_time}.zip"
             )
 
     if config["likelihood_landscapes"]["run"]:
@@ -65,8 +71,9 @@ def get_final_output():
             # get all the variables to plot a PCA for
             final_output.extend(
                 expand(
-                    "results/{scenario}/likelihood_landscapes/{params}.png", 
-                    params=paramspace.instance_patterns, scenario=scenario
+                    "{root}/results/{scenario}/likelihood_landscapes/{params}.png", 
+                    root=root,
+                    params=paramspace.instance_patterns, scenario=scenario,
                 )
             )
     return final_output
@@ -77,7 +84,7 @@ def _get_input_rule_pymob_infer(wildcards):
     # Access tuple values using the index from your wildcards
     # Construct and return the necessary list/dictionary of input files
     return {
-        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
+        "config": f"{root}/scenarios/{wildcards.scenario}/settings.cfg",
     }
 
 
@@ -86,8 +93,8 @@ def _get_input_rule_likelihood_landscapes(wildcards):
     # Access tuple values using the index from your wildcards
     # Construct and return the necessary list/dictionary of input files
     return {
-        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
-        "posterior": f"results/{wildcards.scenario}/{config['pymob_infer']['backend']}_posterior.nc",
+        "config": f"{root}/scenarios/{wildcards.scenario}/settings.cfg",
+        "posterior": f"{root}/results/{wildcards.scenario}/{config['pymob_infer']['backend']}_posterior.nc",
     }
 
 # Function to generate input paths based on input tuple index
@@ -95,8 +102,8 @@ def _get_input_rule_report(wildcards):
     # Access tuple values using the index from your wildcards
     # Construct and return the necessary list/dictionary of input files
     return {
-        "config": f"scenarios/{wildcards.scenario}/settings.cfg",
-        "report": f"results/{wildcards.scenario}/report.md",
+        "config": f"{root}/scenarios/{wildcards.scenario}/settings.cfg",
+        "report": f"{root}/results/{wildcards.scenario}/report.md",
     }
 
 # Function to generate input paths based on input tuple index
@@ -104,6 +111,6 @@ def _get_input_rule_report_combination(wildcards):
     # Access tuple values using the index from your wildcards
     # Construct and return the necessary list/dictionary of input files
     return expand(
-        f"results/{{s}}/reports/{config['case_study']}_{{s}}.tex", 
+        f"{root}/results/{{s}}/reports/{config['case_study']}_{{s}}.tex", 
         s=config["scenarios"]
     )

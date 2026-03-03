@@ -3,7 +3,7 @@ rule likelihood_landscapes:
         unpack(_get_input_rule_likelihood_landscapes)
 
     output:
-        "results/{scenario}/likelihood_landscapes/parx~{parx}__pary~{pary}.png"
+        f"{root}/results/{{scenario}}/likelihood_landscapes/parx~{{parx}}__pary~{{pary}}.png"
 
     log: "logs/likelihood_landscapes_{scenario}_{parx}_{pary}.log"
 
